@@ -21,7 +21,9 @@ namespace CVFormatter.Web.Controllers
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
             if (file == null || file.Length == 0)
+            {
                 return Content("File not selected");
+            }
 
             var path = Path.Combine(Directory.GetCurrentDirectory(), "Files\\Imported", file.GetFileName());
 
@@ -29,15 +31,13 @@ namespace CVFormatter.Web.Controllers
 
             var outputPath = Path.Combine(Directory.GetCurrentDirectory(), "Files\\Exported", outputFileName);
 
-            // Step1: Upload
             using (var stream = new FileStream(path, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
 
-            // Step2 : 
             var logoPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "nova-logo.jpg");
-            var blockPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot","white-border.jpg");
+            var blockPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "white-border.jpg");
 
             //var settings = new FormatterSettings();
             //settings.BorderPath = blockPath;
@@ -87,11 +87,6 @@ namespace CVFormatter.Web.Controllers
         }
 
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
         {
             return View();
         }

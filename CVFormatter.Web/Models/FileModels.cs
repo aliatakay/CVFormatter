@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace CVFormatter.Web.Models
 {
@@ -15,5 +12,4 @@ namespace CVFormatter.Web.Models
     {
         public List<FileDetail> Files { get; set; } = new List<FileDetail>();
     }
-
 }

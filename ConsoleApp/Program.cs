@@ -1,6 +1,5 @@
-﻿using System;
+﻿using CVFormatter;
 using System.IO;
-using CVFormatter;
 
 namespace ConsoleApp
 {
@@ -8,18 +7,20 @@ namespace ConsoleApp
     {
         public static void Main(string[] args)
         {
-            string mainPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            var mainPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
 
-            string pathin = mainPath + "\\resume.pdf";
-            string pathout = mainPath + "\\resume_new.pdf";
+            var pathIn = mainPath + "\\resume.pdf";
+            var pathOut = mainPath + "\\resume_new.pdf";
 
-            FormatterSettings Settings = new FormatterSettings();
+            var settings = new FormatterSettings()
+            {
+                LogoPath = mainPath + "\\nova-logo.jpg",
+                BorderPath = mainPath + "\\white-border.jpg"
+            };
 
-            Settings.LogoPath = mainPath + "\\nova-logo.jpg";
-            Settings.BorderPath = mainPath + "\\white-border.jpg";
+            var formatter = new ResumeFormatter(settings);
 
-            ResumeFormatter Formatter = new ResumeFormatter(Settings);
-            Formatter.Format(pathin, pathout);
+            formatter.Format(pathIn, pathOut);
         }
     }
 }

@@ -6,28 +6,29 @@ namespace CVFormatter
 {
     public class ResumeFormatter : BaseFormatter
     {
-        FormatterSettings formatterSettings;
+        private FormatterSettings _formatterSettings;
 
         public ResumeFormatter(FormatterSettings formatterSettings)
         {
-            this.formatterSettings = formatterSettings;
+            this._formatterSettings = formatterSettings;
         }
 
         public void Format(string input, string output)
         {
-            var logoPath = formatterSettings.LogoPath;
-            var borderPath = formatterSettings.BorderPath;
+            var logoPath = this._formatterSettings.LogoPath;
+            var borderPath = this._formatterSettings.BorderPath;
 
             var pdfReader = new PdfReader(input);
             var pdfContent = default(PdfContentByte);
             var pdfStamper = new PdfStamper(pdfReader, new FileStream(output, FileMode.Create));
 
-            int numberOfPages = pdfReader.NumberOfPages;
+            var pages = pdfReader.NumberOfPages;
 
-            for (int i = 0; i < numberOfPages; i++)
+            for (int i = 0; i < pages; i++)
             {
                 var logo = Image.GetInstance(logoPath);
                 logo.SetAbsolutePosition(410, 745);
+                
                 pdfContent = pdfStamper.GetOverContent(i + 1);
                 pdfContent.AddImage(logo);
             }
