@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Authors>aliatakay</Authors>
     <Company />
     <Copyright>aliatakay 2018</Copyright>
@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="iTextSharp" Version="5.5.13" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.4" />
   </ItemGroup>
 
 </Project>

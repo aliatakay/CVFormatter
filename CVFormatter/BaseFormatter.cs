@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CVFormatter
+﻿namespace CVFormatter
 {
-    public abstract class BaseFormatter
-        :IFormatter
+    public abstract class BaseFormatter : IFormatter
     {
 
     }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.IO;
-using iTextSharp.text;
+﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
+using System.IO;
 
 namespace CVFormatter
 {
-    public class ResumeFormatter
-        :BaseFormatter
+    public class ResumeFormatter : BaseFormatter
     {
         FormatterSettings formatterSettings;
 
@@ -17,24 +15,24 @@ namespace CVFormatter
 
         public void Format(string input, string output)
         {
-            var LogoPath = formatterSettings.LogoPath;
-            var BorderPath = formatterSettings.BorderPath;
-            PdfContentByte pdfContent;
+            var logoPath = formatterSettings.LogoPath;
+            var borderPath = formatterSettings.BorderPath;
 
-            PdfReader pdfReader = new PdfReader(input);
-            PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileStream(output, FileMode.Create));
+            var pdfReader = new PdfReader(input);
+            var pdfContent = default(PdfContentByte);
+            var pdfStamper = new PdfStamper(pdfReader, new FileStream(output, FileMode.Create));
 
             int numberOfPages = pdfReader.NumberOfPages;
 
             for (int i = 0; i < numberOfPages; i++)
             {
-                Image logo = Image.GetInstance(LogoPath);
+                var logo = Image.GetInstance(logoPath);
                 logo.SetAbsolutePosition(410, 745);
                 pdfContent = pdfStamper.GetOverContent(i + 1);
                 pdfContent.AddImage(logo);
             }
 
-            Image border = Image.GetInstance(BorderPath);
+            var border = Image.GetInstance(borderPath);
 
             border.ScaleAbsoluteHeight(105f);
             border.ScaleAbsoluteWidth(557);
@@ -42,7 +40,6 @@ namespace CVFormatter
 
             pdfContent = pdfStamper.GetOverContent(1);
             pdfContent.AddImage(border);
-
             pdfStamper.Close();
         }
     }

@@ -1,6 +1,4 @@
-using System;
 using Xunit;
-using CVFormatter;
 
 namespace CVFormatter.Tests
 {
