@@ -13,4 +13,8 @@
     <Folder Include="Files\Exported\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CVFormatter\CVFormatter.csproj" />
+  </ItemGroup>
+
 </Project>

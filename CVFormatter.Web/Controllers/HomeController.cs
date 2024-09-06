@@ -39,12 +39,14 @@ namespace CVFormatter.Web.Controllers
             var logoPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "nova-logo.jpg");
             var blockPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "white-border.jpg");
 
-            //var settings = new FormatterSettings();
-            //settings.BorderPath = blockPath;
-            //settings.LogoPath = logoPath;
+            var settings = new FormatterSettings
+            {
+                BorderPath = blockPath,
+                LogoPath = logoPath
+            };
 
-            //ResumeFormatter resumeFormatter = new ResumeFormatter(settings);
-            //resumeFormatter.Format(path, outputPath);
+            ResumeFormatter resumeFormatter = new ResumeFormatter(settings);
+            resumeFormatter.Format(path, outputPath);
 
             return RedirectToAction("Files");
         }
@@ -63,7 +65,7 @@ namespace CVFormatter.Web.Controllers
 
         public async Task<IActionResult> Download(string fileName)
         {
-            if (!string.IsNullOrWhiteSpace(fileName))
+            if (string.IsNullOrWhiteSpace(fileName))
             {
                 return Content("filename not present");
             }
