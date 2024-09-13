@@ -3,7 +3,6 @@ using CVFormatter.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -11,11 +10,21 @@ namespace CVFormatter.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public IFileProvider fileProvider;
+        public IFileProvider _provider;
 
-        public HomeController(IFileProvider fileProvider)
+        public HomeController(IFileProvider provider)
         {
-            this.fileProvider = fileProvider;
+            this._provider = provider;
+        }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult Formatter()
+        {
+            return View();
         }
 
         public async Task<IActionResult> UploadFile(IFormFile file)
@@ -55,7 +64,7 @@ namespace CVFormatter.Web.Controllers
         {
             var model = new FileViewModel();
 
-            foreach (var item in this.fileProvider.GetDirectoryContents("Exported"))
+            foreach (var item in this._provider.GetDirectoryContents("Exported"))
             {
                 model.Files.Add(new FileDetail { Name = item.Name, Path = item.PhysicalPath });
             }
@@ -65,38 +74,27 @@ namespace CVFormatter.Web.Controllers
 
         public async Task<IActionResult> Download(string fileName)
         {
-            if (string.IsNullOrWhiteSpace(fileName))
+            var result = default(IActionResult);
+
+            if (!string.IsNullOrWhiteSpace(fileName))
             {
-                return Content("filename not present");
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "Files\\Exported", fileName);
+
+                var memory = new MemoryStream();
+
+                using (var stream = new FileStream(path, FileMode.Open))
+                {
+                    await stream.CopyToAsync(memory);
+                }
+
+                memory.Position = 0;
+
+                return File(memory, "application/pdf", Path.GetFileName(path));
             }
+            else
+                result = Content("Invalid File Name");
 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "Files\\Exported", fileName);
-
-            var memory = new MemoryStream();
-
-            using (var stream = new FileStream(path, FileMode.Open))
-            {
-                await stream.CopyToAsync(memory);
-            }
-
-            memory.Position = 0;
-
-            return File(memory, "application/pdf", Path.GetFileName(path));
-        }
-        public IActionResult Formatter()
-        {
-            return View();
-        }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return result;
         }
     }
 }

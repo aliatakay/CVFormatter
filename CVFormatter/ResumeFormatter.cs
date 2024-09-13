@@ -6,7 +6,7 @@ namespace CVFormatter
 {
     public class ResumeFormatter : BaseFormatter
     {
-        private FormatterSettings _formatterSettings;
+        private readonly FormatterSettings _formatterSettings;
 
         public ResumeFormatter(FormatterSettings formatterSettings)
         {

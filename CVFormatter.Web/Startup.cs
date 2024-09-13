@@ -9,12 +9,12 @@ namespace CVFormatter.Web
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -31,11 +31,11 @@ namespace CVFormatter.Web
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseDeveloperExceptionPage();
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
-            app.UseMvc(routes => routes.MapRoute(name: "default", template: "{controller=Home}/{action=Formatter}/{id?}"));
+            app.UseDeveloperExceptionPage()
+               .UseHttpsRedirection()
+               .UseStaticFiles()
+               .UseCookiePolicy()
+               .UseMvc(routes => routes.MapRoute(name: "default", template: "{controller=Home}/{action=Formatter}/{id?}"));
         }
     }
 }
